@@ -23,6 +23,10 @@ services:
       MYSQL_PASSWORD: symfony
     volumes:
       - db_data:/var/lib/mysql
+    command:
+      - "--explicit_defaults_for_timestamp=1"
+      - "--ssl-mode=REQUIRED"
+      - "--tls-version=TLSv1.2"
 
   nginx:
     image: nginx:alpine

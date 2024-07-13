@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: php:7.4-fpm
+    image: php:8.3.9-fpm
     container_name: symfony_web
     working_dir: /var/www/backend
     volumes:

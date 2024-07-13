@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   web:
-    image: php:8.3.9-fpm
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
     container_name: symfony_web
     working_dir: /var/www/backend
     volumes:

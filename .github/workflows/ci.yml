@@ -41,6 +41,10 @@ jobs:
           cp .env.example .env
           composer install --no-ansi --no-interaction --no-progress --no-suggest
 
+      - name: Run PHP_CodeSniffer
+        working-directory: ./backend
+        run: vendor/bin/phpcs --standard=PSR2 src
+
       - name: Run PHPUnit tests
         working-directory: ./backend
         run: |

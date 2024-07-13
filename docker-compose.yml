@@ -4,9 +4,9 @@ services:
   web:
     image: php:7.4-fpm
     container_name: symfony_web
-    working_dir: /var/www/symfony
+    working_dir: /var/www/backend
     volumes:
-      - .:/var/www/symfony
+      - ./backend:/var/www/backend
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     environment:
       - APP_ENV=dev
@@ -26,7 +26,7 @@ services:
     image: nginx:alpine
     container_name: symfony_nginx
     volumes:
-      - .:/var/www/symfony
+      - ./backend:/var/www/backend
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/snippets:/etc/nginx/snippets
     ports:

@@ -36,5 +36,15 @@ services:
     depends_on:
       - web
 
+  test:
+    image: php:8.3.9-cli
+    container_name: symfony_test
+    working_dir: /var/www/backend
+    volumes:
+      - ./backend:/var/www/backend
+    depends_on:
+      - db
+    entrypoint: ["./vendor/bin/phpunit"]
+
 volumes:
   db_data:

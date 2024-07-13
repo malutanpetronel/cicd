@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 3306:3306
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3.9
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: |
+          cp .env.example .env
+          composer install --no-ansi --no-interaction --no-progress --no-suggest
+
+      - name: Run PHP_CodeSniffer
+        working-directory: ./backend
+        run: vendor/bin/phpcs --standard=PSR2 src
+
+      - name: Run PHPUnit tests
+        working-directory: ./backend
+        run: |
+          php ./vendor/bin/phpunit
